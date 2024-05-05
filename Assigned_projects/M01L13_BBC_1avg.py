@@ -14,3 +14,5 @@ number_of_characters_without_spaces = text_length - (number_of_words - 1)
 average_word_length = number_of_characters_without_spaces / number_of_words
 print("Number of words:", number_of_words)
 print("Average word length:", average_word_length)
+
+# https://github.com/tblisty/PrakPyth_projects/
