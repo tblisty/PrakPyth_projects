@@ -17,7 +17,7 @@ two_player_mode = bool( 0 )
 #     3 - dic_plus_tuple \n
 #     4 - modulo_mode'''
 #     )
-program_engine = 4
+program_engine = 2
 
 def f_1_player_mode():
     if not two_player_mode:
