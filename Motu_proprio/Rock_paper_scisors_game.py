@@ -8,8 +8,6 @@ import pwinput
 import random
 from icecream import ic
 
-ic.disable()
-
 two_player_mode = bool( 0 )
 
 # Choose program engine: 1-4
@@ -22,7 +20,6 @@ two_player_mode = bool( 0 )
 program_engine = 4
 
 def f_1_player_mode():
-    ic('f1')
     if not two_player_mode:
         var_range = 1
         print('Your opponent is computer.')
@@ -38,8 +35,6 @@ def f_1_player_mode():
             print('Incorrect input. Pogramm interrupted')
             exit()
     print()
-    ic(input_matrix[0][1], input_matrix[1][1])
-    ic(input_matrix)
 
 def f_2_player_mode():
     for i in range(len(input_matrix)):
@@ -125,8 +120,6 @@ input_matrix = [
     ['Your turn', 'a'],
     ['Opponent turn', 'b']
 ]
-ic('Kiedy matrix')
-
 
 # Tworzenie słownika z początkowymi wartościami
 input_dict = {
@@ -163,10 +156,7 @@ functions_dic = {
 }
 
 function_, args_ = functions_dic[program_engine]
-ic('Kiedy matrix_2')
-ic(function_, args_)
 function_(*args_)
-ic("Kontrolka")
 function_n = function_.__name__
 
 print(3*'\n' + 'Proudly powered by:', function_n )
