@@ -1,12 +1,15 @@
 # M03L07f_sum_with_ext_i18n.py
+
+# from icecream import ic
 from M03L07fa_sum_i18n import dic_get
 
 def string_to_number( f_string ):
     work_string = ''
+    # ic(f_string)
     comma_not_present = True
     char = 0
     while char < len(f_string):
-        are_letters = False == (f_string[char].isdigit() or f_string[char] == ',' or f_string[char] == '.' or f_string[char].isspace())
+        are_letters = False == (f_string[char].isdigit() or f_string[char] == ',' or f_string[char] == '.' or f_string[char].isspace() or f_string[0] == '-')
         if f_string[char].isdigit():
             work_string += f_string[char]
         elif (f_string[char] == ',' or f_string[char] == '.') and comma_not_present:
@@ -14,6 +17,8 @@ def string_to_number( f_string ):
             comma_not_present = False
         elif are_letters:
             char = len(f_string)
+        elif f_string[0] == '-':
+            work_string += '-'
         char += 1
     try:
         return int(work_string)
