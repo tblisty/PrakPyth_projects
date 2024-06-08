@@ -5,9 +5,6 @@
 def dic_get( key, i18n ):
     dic = {
     'progr': ('Programm summing two numbers', 'Program sumujący dwie liczby'),
-    'lang' : ('language',                     'język'),
-    'inp'  : ('input',                        'wejście'),
-    'out'  : ('output',                       'wyjście'),
     'in_a' : ('Enter first number',           'Wprowadź pierwszą liczbę'), #term, addend
     'in_b' : ('Enter second number',          'Wrowadź drugą liczbę'),
     'sum'  : ('The sum of given numbers is',  'Suma podanych liczb wynosi'),

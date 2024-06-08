@@ -27,7 +27,7 @@ def main():
     else:
         i18n = 1
 
-    print('\n', dic_get("progr", i18n), '\n')
+    print('\n'+dic_get("progr", i18n), '\n')
     addend_a = input(dic_get("in_a", i18n) + ': ')
     addend_b = input(dic_get("in_b", i18n) + ': ')
     try:
