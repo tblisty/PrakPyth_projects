@@ -1,5 +1,9 @@
 csv_prerequisites.txt
 
+Text in columns limited with: ".
+Columns separated with commas.
+Acceptable comments in separate lines starting with: #.
+
 Wymagania.
 Tekst w kolumnach ograniczony cudzysłowami: ".
 Kolumny oddzielone przecinkami.
