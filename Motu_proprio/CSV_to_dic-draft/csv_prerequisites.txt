@@ -1,0 +1,6 @@
+csv_prerequisites.txt
+
+Wymagania.
+Tekst w kolumnach ograniczony cudzysłowami: ".
+Kolumny oddzielone przecinkami.
+Dopuszczalne komentarze w osobnych liniach zaczynających się od: #
