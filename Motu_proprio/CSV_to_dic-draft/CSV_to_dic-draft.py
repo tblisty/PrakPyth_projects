@@ -82,7 +82,6 @@ def main():
     
     start_range = do_quote_is_at_the_beginning(content)
     
-        
     # ic.enable()    
     # ic('przed for')
     # ic(char, "przed for")  
@@ -91,24 +90,22 @@ def main():
     # ic(content)
     ic.disable()
     
-    char_w = len1 = len(content)
-    cache_str = ""
+    
+    len1 = len(content)
+    cache_str = "" # needed outside
     cache_str_temp = ""
     column_quote_number = 0
-    entries_dic = {}
+    entries_dic = {} # needed as output
     line_change   = False
     separation_checking = False
     comma_present = False
     quote_and_newline_occurence = False
-    column_index = 0
-    current_value_list = []
-    
+    column_index = 0 # needed outside
+    current_value_list = [] # needed outsie
     # print('str - cache_str', 't - cache_str_temp', 'cv - current_value_list', 'c - char' , 'q - column_quote_number', 'ci - column_index', 'sep - separation_checking', sep='\n')
-    
     for char in range(start_range, len1):
         # ic.enable()
-        # print('c:', char, content[char], 'q:', column_quote_number, 'ci:', column_index, 'sep:', separation_checking, 'str:', cache_str, 't:', cache_str_temp, 'cv:', current_value_list)
-        
+        # print('c:', char, content[char], 'q:', column_quote_number, 'ci:', column_index, 'sep:', separation_checking, 'str:', cache_str, 't:', cache_str_temp, 'cv:', current_value_list)    
         if content[char]=='\"':
             # ic("\"")
             if column_quote_number == 0 :
@@ -156,10 +153,6 @@ def main():
             elif separation_checking:
                 ic("\"+only separation checking")
                 cache_str_temp += content[char]
-            # elif column_index == 0:
-            #     ic('elif column_index == 0:')
-            #     cache_str = ""
-            #     cache_str_temp = ""
             else:
                 ic("\" + else")
                 column_quote_number += 1
@@ -184,7 +177,6 @@ def main():
                     ic("Comma is present")
                     cache_str = cache_str_temp + content[char]
                     cache_str_temp += content[char]
-                
                 else:
                     quote_and_newline_occurence = True
                     cache_str_temp += content[char]
@@ -217,10 +209,11 @@ def main():
         # ic(cache_str, cache_str_temp)
     
     # ic.enable()
-    comma_present = False
-    present_ending_quote = False
-    checked_ending = False
+    
+    
     # Checking ending quote
+    char_w = len(content)
+    present_ending_quote = False
     while not present_ending_quote and char_w >=0 :
         char_w -= 1
         if content[char_w]=='\"':
@@ -230,11 +223,15 @@ def main():
         else:
             print('nieprawidłowy format csv. Przerwanie programu')
             exit()
+            
+            
     # Trzeba się jeszcze dalej cofać, aż sprawdzimy, że przed ostatnim cudzysłowem nie ma średnika lub znaku nowej linii
     ic.enable()
     ic("Czy tu wywala?")
     ic.disable()
     
+    checked_ending = False
+    comma_present = False
     while not checked_ending and char_w >= 0:
         char_w -= 1
         if char_w == 0 and not content[char_w] == '\"':
@@ -262,10 +259,10 @@ def main():
 
     # 
     ic(current_value_list)
-    ic(column_quote_number)
+    # ic(column_quote_number)
     ic(cache_str)
     ic(column_index)
-    ic(line_change)
+    # ic(line_change)
     print(entries_dic)
     ic.enable()
     ic(entries_dic)
