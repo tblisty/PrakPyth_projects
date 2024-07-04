@@ -58,6 +58,125 @@ def do_quote_is_at_the_beginning(content_f3):
             exit()
     return start_range_f3
 
+def main_work(start_range_f4, content_f4):
+    len_f4 = len(content_f4)
+    cache_str = "" # needed outside
+    cache_str_temp = ""
+    column_quote_number = 0
+    entries_dic = {} # needed as output
+    line_change   = False
+    separation_checking = False
+    comma_present = False
+    quote_and_newline_occurence = False
+    column_index_f4 = 0 # needed outside
+    current_value_list = [] # needed outsie
+    # print('str - cache_str', 't - cache_str_temp', 'cv - current_value_list', 'c - char' , 'q - column_quote_number', 'ci - column_index', 'sep - separation_checking', sep='\n')
+    for char in range(start_range_f4, len_f4):
+        # ic.enable()
+        # print('c:', char, content[char], 'q:', column_quote_number, 'ci:', column_index, 'sep:', separation_checking, 'str:', cache_str, 't:', cache_str_temp, 'cv:', current_value_list)    
+        if content_f4[char]=='\"':
+            # ic("\"")
+            if column_quote_number == 0 :
+                # ic("if")
+                ic()
+                column_quote_number += 1
+                # a = b + c 
+                # column_quote_number = column_quote_number + 1
+            elif separation_checking and comma_present:
+                # print(f"{current_value_list= }")
+                ic('elif comma_present')
+                comma_present = False
+                # To znaczy, że mieniamy kolumnę
+                if column_index_f4 == 0:
+                    entries_dic.update({cache_str : None})
+                    current_key = cache_str
+                else:
+                    current_value_list.append(cache_str)
+                column_index_f4 += 1
+                cache_str = ""
+                cache_str_temp = ""
+                column_quote_number = 1 #mod
+                separation_checking = False
+            elif separation_checking and quote_and_newline_occurence:
+                # line_change = True
+                ic('\"+separation_checking+quote_and_newline_occurence')
+                if column_index_f4 == 0:
+                    entries_dic.update({cache_str : None})
+                    current_key = cache_str
+                else:
+                    current_value_list.append(cache_str)
+                    ic(current_value_list)
+                    temp_tuple = tuple(current_value_list)
+                    current_value_list = []
+                    ic(current_key)
+                    entries_dic.update({current_key : temp_tuple})
+                    ic(entries_dic)
+                    ic(column_index_f4)
+                column_index_f4 = 0
+                separation_checking = False
+                comma_present = False
+                cache_str = ""
+                cache_str_temp = ""
+                
+            elif separation_checking:
+                ic("\"+only separation checking")
+                cache_str_temp += content_f4[char]
+            else:
+                ic("\" + else")
+                column_quote_number += 1
+                separation_checking = True
+                # if not line_change:
+                cache_str_temp += content_f4[char]
+        elif content_f4[char]==',':
+            if separation_checking:
+                cache_str_temp += content_f4[char]
+                comma_present = True
+            else:
+                cache_str += content_f4[char]
+                cache_str_temp += content_f4[char]
+                separation_checking = False
+        elif content_f4[char]=='\n':
+            if line_change:
+                pass
+            elif separation_checking:
+                ic("\\n+separation_checking")
+                ic('Enter')
+                if comma_present:
+                    ic("Comma is present")
+                    cache_str = cache_str_temp + content_f4[char]
+                    cache_str_temp += content_f4[char]
+                else:
+                    quote_and_newline_occurence = True
+                    cache_str_temp += content_f4[char]
+                # ic(cache_str, cache_str_temp)
+                # ic(comma_present, quote_and_newline_occurence)
+            else:
+                cache_str += content_f4[char]
+                cache_str_temp += content_f4[char]
+                
+        elif content_f4[char].isspace() and not content_f4[char]=='\n':
+            if separation_checking:
+                cache_str_temp += content_f4[char]
+            else:
+                cache_str += content_f4[char]
+                cache_str_temp += content_f4[char]
+        else:
+            if column_quote_number == 0:
+                print('nieprawidłowy format csv. Przerwanie programu')
+                exit()
+            elif separation_checking:
+                comma_present = False
+                separation_checking = False
+                line_change = False
+                cache_str = cache_str_temp + content_f4[char]
+                cache_str_temp += content_f4[char]
+            else:
+                cache_str += content_f4[char]
+                cache_str_temp += content_f4[char]
+        # ic(comma_present, cache_str, cache_str_temp)
+        # ic(cache_str, cache_str_temp)
+    return cache_str, current_value_list, entries_dic, column_index_f4, current_key
+
 def main():
     print()
     ic.disable()
@@ -91,122 +210,7 @@ def main():
     ic.disable()
     
     
-    len1 = len(content)
-    cache_str = "" # needed outside
-    cache_str_temp = ""
-    column_quote_number = 0
-    entries_dic = {} # needed as output
-    line_change   = False
-    separation_checking = False
-    comma_present = False
-    quote_and_newline_occurence = False
-    column_index = 0 # needed outside
-    current_value_list = [] # needed outsie
-    # print('str - cache_str', 't - cache_str_temp', 'cv - current_value_list', 'c - char' , 'q - column_quote_number', 'ci - column_index', 'sep - separation_checking', sep='\n')
-    for char in range(start_range, len1):
-        # ic.enable()
-        # print('c:', char, content[char], 'q:', column_quote_number, 'ci:', column_index, 'sep:', separation_checking, 'str:', cache_str, 't:', cache_str_temp, 'cv:', current_value_list)    
-        if content[char]=='\"':
-            # ic("\"")
-            if column_quote_number == 0 :
-                # ic("if")
-                ic()
-                column_quote_number += 1
-                # a = b + c 
-                # column_quote_number = column_quote_number + 1
-            elif separation_checking and comma_present:
-                # print(f"{current_value_list= }")
-                ic('elif comma_present')
-                comma_present = False
-                # To znaczy, że mieniamy kolumnę
-                if column_index == 0:
-                    entries_dic.update({cache_str : None})
-                    current_key = cache_str
-                else:
-                    current_value_list.append(cache_str)
-                column_index += 1
-                cache_str = ""
-                cache_str_temp = ""
-                column_quote_number = 1 #mod
-                separation_checking = False
-            elif separation_checking and quote_and_newline_occurence:
-                # line_change = True
-                ic('\"+separation_checking+quote_and_newline_occurence')
-                if column_index == 0:
-                    entries_dic.update({cache_str : None})
-                    current_key = cache_str
-                else:
-                    current_value_list.append(cache_str)
-                    ic(current_value_list)
-                    temp_tuple = tuple(current_value_list)
-                    current_value_list = []
-                    ic(current_key)
-                    entries_dic.update({current_key : temp_tuple})
-                    ic(entries_dic)
-                    ic(column_index)
-                column_index = 0
-                separation_checking = False
-                comma_present = False
-                cache_str = ""
-                cache_str_temp = ""
-                
-            elif separation_checking:
-                ic("\"+only separation checking")
-                cache_str_temp += content[char]
-            else:
-                ic("\" + else")
-                column_quote_number += 1
-                separation_checking = True
-                # if not line_change:
-                cache_str_temp += content[char]
-        elif content[char]==',':
-            if separation_checking:
-                cache_str_temp += content[char]
-                comma_present = True
-            else:
-                cache_str += content[char]
-                cache_str_temp += content[char]
-                separation_checking = False
-        elif content[char]=='\n':
-            if line_change:
-                pass
-            elif separation_checking:
-                ic("\\n+separation_checking")
-                ic('Enter')
-                if comma_present:
-                    ic("Comma is present")
-                    cache_str = cache_str_temp + content[char]
-                    cache_str_temp += content[char]
-                else:
-                    quote_and_newline_occurence = True
-                    cache_str_temp += content[char]
-                # ic(cache_str, cache_str_temp)
-                # ic(comma_present, quote_and_newline_occurence)
-            else:
-                cache_str += content[char]
-                cache_str_temp += content[char]
-                
-        elif content[char].isspace() and not content[char]=='\n':
-            if separation_checking:
-                cache_str_temp += content[char]
-            else:
-                cache_str += content[char]
-                cache_str_temp += content[char]
-        else:
-            if column_quote_number == 0:
-                print('nieprawidłowy format csv. Przerwanie programu')
-                exit()
-            elif separation_checking:
-                comma_present = False
-                separation_checking = False
-                line_change = False
-                cache_str = cache_str_temp + content[char]
-                cache_str_temp += content[char]
-            else:
-                cache_str += content[char]
-                cache_str_temp += content[char]
-        # ic(comma_present, cache_str, cache_str_temp)
-        # ic(cache_str, cache_str_temp)
+    cache_str_out, values_list, dic_out, column_index, c_key = main_work(start_range, content)
     
     # ic.enable()
     
@@ -226,9 +230,9 @@ def main():
             
             
     # Trzeba się jeszcze dalej cofać, aż sprawdzimy, że przed ostatnim cudzysłowem nie ma średnika lub znaku nowej linii
-    ic.enable()
-    ic("Czy tu wywala?")
-    ic.disable()
+    # ic.enable()
+    # ic("Czy tu wywala?")
+    # ic.disable()
     
     checked_ending = False
     comma_present = False
@@ -249,23 +253,23 @@ def main():
     
     
     if column_index == 0:
-        entries_dic.update({cache_str : None})
+        dic_out.update({cache_str_out : None})
     else:
-        ic(current_value_list)
-        current_value_list.append(cache_str)
-        temp_tuple = tuple(current_value_list)
+        ic(values_list)
+        values_list.append(cache_str_out)
+        temp_tuple = tuple(values_list)
         ic(temp_tuple)
-        entries_dic.update({current_key : temp_tuple})
+        dic_out.update({c_key : temp_tuple})
 
     # 
-    ic(current_value_list)
+    # ic(current_value_list)
     # ic(column_quote_number)
-    ic(cache_str)
+    # ic(cache_str)
     ic(column_index)
     # ic(line_change)
-    print(entries_dic)
+    # print(entries_dic)
     ic.enable()
-    ic(entries_dic)
+    ic(dic_out)
 
     # Niedołączone dane mogą się znajdować w:
     # current_value_list
