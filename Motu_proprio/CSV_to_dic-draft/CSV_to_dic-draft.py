@@ -72,10 +72,10 @@ def main_work(start_range_f4, content_f4):
     quote_and_newline_occurence = False
     column_index_f4 = 0 # needed outside
     current_value_list = [] # needed outsie
-    # print('str - cache_str', 't - cache_str_temp', 'cv - current_value_list', 'c - char' , 'q - column_quote_number', 'ci - column_index', 'sep - separation_checking', sep='\n')
+    print('str - cache_str', 't - cache_str_temp', 'cv - current_value_list', 'c - char' , 'q - column_quote_number', 'ci - column_index', 'sep - separation_checking', sep='\n')
     for char in range(start_range_f4, len_f4):
         # ic.enable()
-        # print('c:', char, content[char], 'q:', column_quote_number, 'ci:', column_index, 'sep:', separation_checking, 'str:', cache_str, 't:', cache_str_temp, 'cv:', current_value_list)    
+        print('c:', char, content_f4[char], 'q:', column_quote_number, 'ci:', column_index_f4, 'sep:', separation_checking, 'str:', cache_str, 't:', cache_str_temp, 'cv:', current_value_list)    
         if content_f4[char]=='\"':
             # ic("\"")
             if column_quote_number == 0 :
@@ -233,13 +233,9 @@ def main():
     # print(content)
     
     start_range = start_range_ref_to_BOM(content)
-    
     content = decommenting(start_range, content)
-    
     start_range = do_quote_is_at_the_beginning(content)
-    
     end_consistency_check(content)
-    
     # cache_str_out, values_list, dic_out, column_index, c_key = main_work(start_range, content)
     dic_out = main_work(start_range, content)
     
@@ -258,6 +254,5 @@ def main():
     #
     #
     
-
 if __name__ == "__main__":
     main()
