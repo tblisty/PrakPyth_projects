@@ -190,8 +190,6 @@ def main_work(start_range_f4, content_f4):
     # return cache_str, current_value_list, entries_dic, column_index_f4, current_key
     return entries_dic
 
-
-
 def end_consistency_check(content_f5):
     # a. First of all, we will be going from the back.
     # We will be looking for quotation mark. Whitespace is accepted, anything else not. If anything except for quotation mark  or whitespace occurs. Program will be interrupted.
@@ -225,11 +223,11 @@ def end_consistency_check(content_f5):
         else:
             checked_ending = True 
     
-
 def main():
     print()
     # ic.disable()
-    with open('right.csv', encoding='utf-8') as stream:
+    with open('right_t1.csv', encoding='utf-8') as stream:
+    # with open('right.csv', encoding='utf-8') as stream:
     # with open('right_bezBOM.csv', encoding='utf-8') as stream:
         content = stream.read()
     # print(content)
