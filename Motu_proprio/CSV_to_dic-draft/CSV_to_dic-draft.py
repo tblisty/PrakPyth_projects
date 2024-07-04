@@ -11,6 +11,8 @@ def start_range_ref_to_BOM(content_f1):
     return start_range_f1
 
 def decommenting(start_range_f1, content_f2):
+    # Simple decomment
+    #Jeżeli w linii przed pojawieniem się kratki pojawi się coś innego niż znak niedrukowalny, to taka linia nie będzie uwzględniona
     else_mode = False
     decommented = ""
     comment_mode = False
@@ -175,7 +177,52 @@ def main_work(start_range_f4, content_f4):
                 cache_str_temp += content_f4[char]
         # ic(comma_present, cache_str, cache_str_temp)
         # ic(cache_str, cache_str_temp)
-    return cache_str, current_value_list, entries_dic, column_index_f4, current_key
+        
+    #Zapisywanie ostatnich wartości
+    if column_index_f4 == 0:
+        entries_dic.update({cache_str : None})
+    else:
+        # ic(current_value_list)
+        current_value_list.append(cache_str)
+        temp_tuple = tuple(current_value_list)
+        # ic(temp_tuple)
+        entries_dic.update({current_key : temp_tuple})
+    # return cache_str, current_value_list, entries_dic, column_index_f4, current_key
+    return entries_dic
+
+
+
+def end_consistency_check(content_f5):
+    # Checking ending quote
+    char_w = len(content_f5)
+    present_ending_quote = False
+    while not present_ending_quote and char_w >=0 :
+        char_w -= 1
+        if content_f5[char_w]=='\"':
+            present_ending_quote = True
+        elif content_f5[char_w].isspace() and not present_ending_quote:
+            pass
+        else:
+            print('nieprawidłowy format csv. Przerwanie programu')
+            exit()
+    # Trzeba się jeszcze dalej cofać, aż sprawdzimy, że przed ostatnim cudzysłowem nie ma średnika lub znaku nowej linii    
+    checked_ending = False
+    comma_present = False
+    while not checked_ending and char_w >= 0:
+        char_w -= 1
+        if char_w == 0 and not content_f5[char_w] == '\"':
+            print('nieprawidłowy format csv. Przerwanie programu')
+            exit()
+        elif content_f5[char_w] == ',' and not comma_present:
+            comma_present = True
+        elif comma_present and content_f5[char_w] == '\"':
+            print('nieprawidłowy format csv. Przerwanie programu')
+            exit()
+        elif content_f5[char_w].isspace():
+            pass
+        else:
+            checked_ending = True 
+    
 
 def main():
     print()
@@ -194,8 +241,7 @@ def main():
     # print(content)
     ic(content)
     
-    # Simple decomment
-    #Jeżeli w linii przed pojawieniem się kratki pojawi się coś innego niż znak niedrukowalny, to taka linia nie będzie uwzględniona
+    
     
     content = decommenting(start_range, content)
     
@@ -209,63 +255,28 @@ def main():
     # ic(content)
     ic.disable()
     
+    end_consistency_check(content)
     
-    cache_str_out, values_list, dic_out, column_index, c_key = main_work(start_range, content)
-    
-    # ic.enable()
-    
-    
-    # Checking ending quote
-    char_w = len(content)
-    present_ending_quote = False
-    while not present_ending_quote and char_w >=0 :
-        char_w -= 1
-        if content[char_w]=='\"':
-            present_ending_quote = True
-        elif content[char_w].isspace() and not present_ending_quote:
-            pass
-        else:
-            print('nieprawidłowy format csv. Przerwanie programu')
-            exit()
-            
-            
-    # Trzeba się jeszcze dalej cofać, aż sprawdzimy, że przed ostatnim cudzysłowem nie ma średnika lub znaku nowej linii
-    # ic.enable()
-    # ic("Czy tu wywala?")
-    # ic.disable()
-    
-    checked_ending = False
-    comma_present = False
-    while not checked_ending and char_w >= 0:
-        char_w -= 1
-        if char_w == 0 and not content[char_w] == '\"':
-            print('nieprawidłowy format csv. Przerwanie programu')
-            exit()
-        elif content[char_w] == ',' and not comma_present:
-            comma_present = True
-        elif comma_present and content[char_w] == '\"':
-            print('nieprawidłowy format csv. Przerwanie programu')
-            exit()
-        elif content[char_w].isspace():
-            pass
-        else:
-            checked_ending = True 
+    # cache_str_out, values_list, dic_out, column_index, c_key = main_work(start_range, content)
+    dic_out = main_work(start_range, content)
     
     
-    if column_index == 0:
-        dic_out.update({cache_str_out : None})
-    else:
-        ic(values_list)
-        values_list.append(cache_str_out)
-        temp_tuple = tuple(values_list)
-        ic(temp_tuple)
-        dic_out.update({c_key : temp_tuple})
+
+    
+    # if column_index == 0:
+    #     dic_out.update({cache_str_out : None})
+    # else:
+    #     ic(values_list)
+    #     values_list.append(cache_str_out)
+    #     temp_tuple = tuple(values_list)
+    #     ic(temp_tuple)
+    #     dic_out.update({c_key : temp_tuple})
 
     # 
     # ic(current_value_list)
     # ic(column_quote_number)
     # ic(cache_str)
-    ic(column_index)
+    # ic(column_index)
     # ic(line_change)
     # print(entries_dic)
     ic.enable()
