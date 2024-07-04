@@ -1,6 +1,63 @@
 
 from icecream import ic
 
+def start_range_ref_to_BOM(content_f1):
+    start_range_f1 = 0
+    # ic(content_f1[0])
+    if content_f1[0] == '\ufeff':
+        # ic('is BOM')
+        start_range_f1 = 1
+    # ic(content_f1)
+    return start_range_f1
+
+def decommenting(start_range_f1, content_f2):
+    else_mode = False
+    decommented = ""
+    comment_mode = False
+    len_f2 = len(content_f2)
+    for char in range(start_range_f1, len_f2):
+        if content_f2[char] == '#':
+            if else_mode:
+                decommented += content_f2[char]
+            else:
+                comment_mode = True
+        elif content_f2[char] == '\n':
+            else_mode = False
+            if comment_mode:
+                comment_mode = False
+            else:
+                decommented += content_f2[char]
+        elif content_f2[char].isspace():
+            if comment_mode:
+                pass
+            else:
+                decommented += content_f2[char]
+            pass
+        else:
+            if not comment_mode:
+                else_mode = True
+                decommented += content_f2[char]
+    return decommented
+
+def do_quote_is_at_the_beginning(content_f3):
+#do_quote_is_at_the_beginning
+    start_range_f3 = 0    
+    for char in content_f3:
+        # ic.disable()
+        # ic('in while - teraz to kolejne for')
+        # ic(start_range)
+        # ic(char)
+        if char == '\"':
+            break
+        # elif char.isspace() or char == '\ufeff':
+        elif char.isspace(): # or char == '\ufeff':
+            start_range_f3 += 1
+        else:
+            ic('Zaraz wyłączy program')
+            print('nieprawidłowy format csv. Przerwanie programu')
+            exit()
+    return start_range_f3
+
 def main():
     print()
     ic.disable()
@@ -9,14 +66,7 @@ def main():
         content = stream.read()
     # print(content)
     
-    
-    start_range = 0
-    
-    ic(content[0])
-    if content[0] == '\ufeff':
-        ic('is BOM')
-        start_range = 1
-    ic(content)
+    start_range = start_range_ref_to_BOM(content)
     
 
     ic(content[0])
@@ -27,64 +77,21 @@ def main():
     
     # Simple decomment
     #Jeżeli w linii przed pojawieniem się kratki pojawi się coś innego niż znak niedrukowalny, to taka linia nie będzie uwzględniona
-    comment_mode = False
-    else_mode = False
-    len1 = len(content)
-    decommented = ""
     
-    for char in range(start_range, len1):
-        if content[char] == '#':
-            if else_mode:
-                decommented += content[char]
-            else:
-                comment_mode = True
-        elif content[char] == '\n':
-            else_mode = False
-            if comment_mode:
-                comment_mode = False
-            else:
-                decommented += content[char]
-        elif content[char].isspace():
-            if comment_mode:
-                pass
-            else:
-                decommented += content[char]
-            pass
-        else:
-            if not comment_mode:
-                else_mode = True
-                decommented += content[char]
+    content = decommenting(start_range, content)
     
-    content = decommented
-    char_w = len1 = len(content)
-    
-    start_range = 0    
-    for char in content:
-        ic.disable()
-        ic('in while - teraz to kolejne for')
-        ic(start_range)
-        ic(char)
-        if char == '\"':
-            break
-        # elif char.isspace() or char == '\ufeff':
-        elif char.isspace(): # or char == '\ufeff':
-            start_range += 1
-        else:
-            ic('Zaraz wyłączy program')
-            print('nieprawidłowy format csv. Przerwanie programu')
-            exit()
-        
-        
+    start_range = do_quote_is_at_the_beginning(content)
     
         
     # ic.enable()    
-    ic('przed for')
-    ic(char, "przed for")  
-    ic(start_range, "przed for")
-    ic(type(char))
-    ic(content)
+    # ic('przed for')
+    # ic(char, "przed for")  
+    # ic(start_range, "przed for")
+    # ic(type(char))
+    # ic(content)
     ic.disable()
     
+    char_w = len1 = len(content)
     cache_str = ""
     cache_str_temp = ""
     column_quote_number = 0
