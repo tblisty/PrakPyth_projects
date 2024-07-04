@@ -193,6 +193,8 @@ def main_work(start_range_f4, content_f4):
 
 
 def end_consistency_check(content_f5):
+    # a. First of all, we will be going from the back.
+    # We will be looking for quotation mark. Whitespace is accepted, anything else not. If anything except for quotation mark  or whitespace occurs. Program will be interrupted.
     # Checking ending quote
     char_w = len(content_f5)
     present_ending_quote = False
@@ -226,7 +228,7 @@ def end_consistency_check(content_f5):
 
 def main():
     print()
-    ic.disable()
+    # ic.disable()
     with open('right.csv', encoding='utf-8') as stream:
     # with open('right_bezBOM.csv', encoding='utf-8') as stream:
         content = stream.read()
@@ -234,58 +236,20 @@ def main():
     
     start_range = start_range_ref_to_BOM(content)
     
-
-    ic(content[0])
-    ic(content[1])
-
-    # print(content)
-    ic(content)
-    
-    
-    
     content = decommenting(start_range, content)
     
     start_range = do_quote_is_at_the_beginning(content)
-    
-    # ic.enable()    
-    # ic('przed for')
-    # ic(char, "przed for")  
-    # ic(start_range, "przed for")
-    # ic(type(char))
-    # ic(content)
-    ic.disable()
     
     end_consistency_check(content)
     
     # cache_str_out, values_list, dic_out, column_index, c_key = main_work(start_range, content)
     dic_out = main_work(start_range, content)
     
-    
-
-    
-    # if column_index == 0:
-    #     dic_out.update({cache_str_out : None})
-    # else:
-    #     ic(values_list)
-    #     values_list.append(cache_str_out)
-    #     temp_tuple = tuple(values_list)
-    #     ic(temp_tuple)
-    #     dic_out.update({c_key : temp_tuple})
-
-    # 
-    # ic(current_value_list)
-    # ic(column_quote_number)
-    # ic(cache_str)
-    # ic(column_index)
-    # ic(line_change)
-    # print(entries_dic)
-    ic.enable()
+    print(dic_out)
     ic(dic_out)
 
     # Niedołączone dane mogą się znajdować w:
-    # current_value_list
-    # cache_str
-    # cache_str_temp
+    #
     # Przypadek
     # 1. There is new line sign. 
     # ✅2. A new line was launched with a quotation mark 
@@ -295,8 +259,7 @@ def main():
     # 6. Second column was completed
     #
     #
-    # a. First of all, we will be going from the back.
-    # We will be looking for quotation mark. Whitespace is accepted, anything else not. If anything except for quotation mark  or whitespace occurs. Program will be interrupted.
+    
 
 if __name__ == "__main__":
     main()
