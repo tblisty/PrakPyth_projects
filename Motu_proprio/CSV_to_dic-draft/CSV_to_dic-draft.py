@@ -9,24 +9,15 @@ def main():
         content = stream.read()
     # print(content)
     
-    cache_str = ""
-    cache_str_temp = ""
-    column_quote_number = 0
-    entries_dic = {}
-    line_change   = False
-    separation_checking = False
-    comma_present = False
-    quote_and_newline_occurence = False
-    column_index = 0
+    
     start_range = 0
-    current_value_list = []
+    
     ic(content[0])
     if content[0] == '\ufeff':
         ic('is BOM')
         start_range = 1
     ic(content)
-    len1 = len(content)
-    decommented = ""
+    
 
     ic(content[0])
     ic(content[1])
@@ -38,6 +29,8 @@ def main():
     #Jeżeli w linii przed pojawieniem się kratki pojawi się coś innego niż znak niedrukowalny, to taka linia nie będzie uwzględniona
     comment_mode = False
     else_mode = False
+    len1 = len(content)
+    decommented = ""
     
     for char in range(start_range, len1):
         if content[char] == '#':
@@ -92,7 +85,16 @@ def main():
     ic(content)
     ic.disable()
     
-    
+    cache_str = ""
+    cache_str_temp = ""
+    column_quote_number = 0
+    entries_dic = {}
+    line_change   = False
+    separation_checking = False
+    comma_present = False
+    quote_and_newline_occurence = False
+    column_index = 0
+    current_value_list = []
     
     # print('str - cache_str', 't - cache_str_temp', 'cv - current_value_list', 'c - char' , 'q - column_quote_number', 'ci - column_index', 'sep - separation_checking', sep='\n')
     
