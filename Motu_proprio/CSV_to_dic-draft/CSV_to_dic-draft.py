@@ -75,7 +75,7 @@ def main_work(start_range_f4, content_f4):
     print('str - cache_str', 't - cache_str_temp', 'cv - current_value_list', 'c - char' , 'q - column_quote_number', 'ci - column_index', 'sep - separation_checking', sep='\n')
     for char in range(start_range_f4, len_f4):
         # ic.enable()
-        print('c:', char, content_f4[char], 'q:', column_quote_number, 'ci:', column_index_f4, 'sep:', separation_checking, 'str:', cache_str, 't:', cache_str_temp, 'cv:', current_value_list)    
+        print('c:', f"{char}"+":", content_f4[char], 'q:', column_quote_number, 'ci:', column_index_f4, 'sep:', separation_checking, 'str:', cache_str, 't:', cache_str_temp, 'cv:', current_value_list)    
         if content_f4[char]=='\"':
             # ic("\"")
             if column_quote_number == 0 :
@@ -122,6 +122,7 @@ def main_work(start_range_f4, content_f4):
                 
             elif separation_checking:
                 ic("\"+only separation checking")
+                
                 cache_str_temp += content_f4[char]
             else:
                 ic("\" + else")
