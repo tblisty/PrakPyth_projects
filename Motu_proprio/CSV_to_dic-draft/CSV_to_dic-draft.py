@@ -12,6 +12,14 @@ def ic_disabled():
 ic.enabled  = ic_enabled
 ic.disabled = ic_disabled
 '''
+lang = 1 # For polish
+
+# The input file has an incorrect structure
+def input_structure_error(lang_f):
+    lang_f=1 #for polish
+    print(f"lang_f = {lang_f}")
+    print('nieprawidłowy format csv. Przerwanie programu')
+    exit()
 
 def start_range_ref_to_BOM(content_f1):
     start_range_f1 = 0
@@ -72,7 +80,7 @@ def do_quote_is_at_the_beginning(content_f3):
             exit()
     return start_range_f3
 
-def main_work(start_range_f4, content_f4):
+def main_work(start_range_f4, content_f4, lang_f2):
     len_f4 = len(content_f4)
     cache_str = "" # needed outside
     cache_str_temp = ""
@@ -154,6 +162,8 @@ def main_work(start_range_f4, content_f4):
         elif content_f4[char]=='\n':
             if line_change:
                 pass
+            elif separation_checking and comma_present:
+                input_structure_error(lang_f2)
             elif separation_checking:
                 ic("\\n+separation_checking")
                 ic('Enter')
@@ -178,8 +188,7 @@ def main_work(start_range_f4, content_f4):
                 cache_str_temp += content_f4[char]
         else:
             if column_quote_number == 0:
-                print('nieprawidłowy format csv. Przerwanie programu')
-                exit()
+                input_structure_error(lang_f2)
             elif separation_checking:
                 comma_present = False
                 separation_checking = False
@@ -238,6 +247,7 @@ def end_consistency_check(content_f5):
             checked_ending = True 
     
 def main():
+    lang = 1 # For polish
     print()
     # ic.disable()
     with open('right_t1.csv', encoding='utf-8') as stream:
@@ -251,7 +261,7 @@ def main():
     start_range = do_quote_is_at_the_beginning(content)
     end_consistency_check(content)
     # cache_str_out, values_list, dic_out, column_index, c_key = main_work(start_range, content)
-    dic_out = main_work(start_range, content)
+    dic_out = main_work(start_range, content, lang)
     
     print(dic_out)
     ic(dic_out)

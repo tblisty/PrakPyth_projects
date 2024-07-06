@@ -1,10 +1,13 @@
 ﻿    # Komentarz na początku po spacjach
 "a""","b""","i"
-"c","d",
+
+"c","d",""
+
 "e""""
-"f","""g"'.'"."h"
-"I'm","proud","'of'","myse
-lf!"
+#"f","""g"'.'"."h"
+
+"I'm","proud","'of'","myse"
+#lf!"
 
 
 # Komentarz na końcu
