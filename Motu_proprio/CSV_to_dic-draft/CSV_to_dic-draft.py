@@ -1,7 +1,8 @@
 
-# from icecream import ic
+from icecream import ic
 
-def ic(*args):
+# Fake ic()
+'''def ic(*args):
     # print("Fake ic")
     pass
 def ic_enabled():
@@ -10,6 +11,7 @@ def ic_disabled():
     print("Here would be ic disabled")
 ic.enabled  = ic_enabled
 ic.disabled = ic_disabled
+'''
 
 def start_range_ref_to_BOM(content_f1):
     start_range_f1 = 0
@@ -82,10 +84,10 @@ def main_work(start_range_f4, content_f4):
     quote_and_newline_occurence = False
     column_index_f4 = 0 # needed outside
     current_value_list = [] # needed outsie
-    print('str - cache_str', 't - cache_str_temp', 'cv - current_value_list', 'c - char' , 'q - column_quote_number', 'ci - column_index', 'sep - separation_checking', sep='\n')
+    print('str - cache_str', 't - cache_str_temp', 'cvl - current_value_list', 'c - char' , 'q - column_quote_number', 'ci - column_index', 'sep - separation_checking', sep='\n')
     for char in range(start_range_f4, len_f4):
         # ic.enable()
-        print('c:', f"{char}"+":", content_f4[char], 'q:', column_quote_number, 'ci:', column_index_f4, 'sep:', separation_checking, 'str:', cache_str, 't:', cache_str_temp, 'cv:', current_value_list)    
+        print('c:', f"{char}"+":", f"'{content_f4[char]}'", 'q:', column_quote_number, 'ci:', column_index_f4, 'sep:', separation_checking, 'str:', f"'{cache_str}'", 't:', f"'{cache_str_temp}'", 'cvl:', current_value_list, 'nlo:')    
         if content_f4[char]=='\"':
             # ic("\"")
             if column_quote_number == 0 :
@@ -110,6 +112,7 @@ def main_work(start_range_f4, content_f4):
                 column_quote_number = 1 #mod
                 separation_checking = False
             elif separation_checking and quote_and_newline_occurence:
+                quote_and_newline_occurence = False                
                 # line_change = True
                 ic('\"+separation_checking+quote_and_newline_occurence')
                 if column_index_f4 == 0:
