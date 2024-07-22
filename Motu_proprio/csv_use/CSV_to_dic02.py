@@ -1,8 +1,9 @@
-
-from icecream import ic
+import os
+# from icecream import ic
 
 # Fake ic()
-'''def ic(*args):
+# '''
+def ic(*args):
     # print("Fake ic")
     pass
 def ic_enabled():
@@ -11,15 +12,27 @@ def ic_disabled():
     print("Here would be ic disabled")
 ic.enabled  = ic_enabled
 ic.disabled = ic_disabled
-'''
-lang = 1 # For polish
+# '''
+# lang = 1 # For polish
+
+# Custom exception
+class StructureErrorException(Exception):
+    '''Wrong CSV format'''
+    pass
 
 # The input file has an incorrect structure
 def input_structure_error(lang_f):
-    lang_f=1 #for polish
+    i18n_dic = {
+        'csv_format_error':('Wrong CSV format. Program interruption', 'Nieprawidłowy format csv. Przerwanie programu')
+    }
+    # lang_f=0 #for English
+    if not lang_f == 1: lang_f = 0
     print(f"lang_f = {lang_f}")
-    print('nieprawidłowy format csv. Przerwanie programu')
-    exit()
+    
+    # Wrong CSV format. Program interruption
+    # print(i18n_dic["csv_format_error"][lang_f])
+    # exit()
+    raise StructureErrorException
 
 def start_range_ref_to_BOM(content_f1):
     start_range_f1 = 0
@@ -61,7 +74,7 @@ def decommenting(start_range_f1, content_f2):
                 decommented += content_f2[char]
     return decommented
 
-def do_quote_is_at_the_beginning(content_f3):
+def do_quote_is_at_the_beginning(content_f3, lang_f3):
 #do_quote_is_at_the_beginning
     start_range_f3 = 0    
     for char in content_f3:
@@ -75,9 +88,7 @@ def do_quote_is_at_the_beginning(content_f3):
         elif char.isspace(): # or char == '\ufeff':
             start_range_f3 += 1
         else:
-            ic('Zaraz wyłączy program')
-            print('nieprawidłowy format csv. Przerwanie programu')
-            exit()
+            input_structure_error(lang_f3)
     return start_range_f3
 
 def main_work(start_range_f4, content_f4, lang_f2):
@@ -92,18 +103,16 @@ def main_work(start_range_f4, content_f4, lang_f2):
     quote_and_newline_occurence = False
     column_index_f4 = 0 # needed outside
     current_value_list = [] # needed outsie
-    print('str - cache_str', 't - cache_str_temp', 'cvl - current_value_list', 'c - char' , 'q - column_quote_number', 'ci - column_index', 'sep - separation_checking', sep='\n')
+    # print('str - cache_str', 't - cache_str_temp', 'cvl - current_value_list', 'c - char' , 'q - column_quote_number', 'ci - column_index', 'sep - separation_checking', sep='\n')
     for char in range(start_range_f4, len_f4):
         # ic.enable()
-        print('c:', f"{char}"+":", f"'{content_f4[char]}'", 'q:', column_quote_number, 'ci:', column_index_f4, 'sep:', separation_checking, 'str:', f"'{cache_str}'", 't:', f"'{cache_str_temp}'", 'cvl:', current_value_list, 'nlo:')    
+        # print('c:', f"{char}"+":", f"'{content_f4[char]}'", 'q:', column_quote_number, 'ci:', column_index_f4, 'sep:', separation_checking, 'str:', f"'{cache_str}'", 't:', f"'{cache_str_temp}'", 'cvl:', current_value_list, 'nlo:')    
         if content_f4[char]=='\"':
             # ic("\"")
             if column_quote_number == 0 :
                 # ic("if")
                 ic()
                 column_quote_number += 1
-                # a = b + c 
-                # column_quote_number = column_quote_number + 1
             elif separation_checking and comma_present:
                 # print(f"{current_value_list= }")
                 ic('elif comma_present')
@@ -213,7 +222,7 @@ def main_work(start_range_f4, content_f4, lang_f2):
     # return cache_str, current_value_list, entries_dic, column_index_f4, current_key
     return entries_dic
 
-def end_consistency_check(content_f5):
+def end_consistency_check(content_f5, lang_f5):
     # a. First of all, we will be going from the back.
     # We will be looking for quotation mark. Whitespace is accepted, anything else not. If anything except for quotation mark  or whitespace occurs. Program will be interrupted.
     # Checking ending quote
@@ -226,31 +235,34 @@ def end_consistency_check(content_f5):
         elif content_f5[char_w].isspace() and not present_ending_quote:
             pass
         else:
-            print('nieprawidłowy format csv. Przerwanie programu')
-            exit()
+            input_structure_error(lang_f5)
     # Trzeba się jeszcze dalej cofać, aż sprawdzimy, że przed ostatnim cudzysłowem nie ma średnika lub znaku nowej linii    
     checked_ending = False
     comma_present = False
     while not checked_ending and char_w >= 0:
         char_w -= 1
         if char_w == 0 and not content_f5[char_w] == '\"':
-            print('nieprawidłowy format csv. Przerwanie programu')
-            exit()
+            input_structure_error(lang_f5)
         elif content_f5[char_w] == ',' and not comma_present:
             comma_present = True
         elif comma_present and content_f5[char_w] == '\"':
-            print('nieprawidłowy format csv. Przerwanie programu')
-            exit()
+            input_structure_error(lang_f5)
         elif content_f5[char_w].isspace():
             pass
         else:
             checked_ending = True 
     
-def main():
-    lang = 1 # For polish
-    print()
+def main(csv_filename, lang):
+# def main(path_to_csv, lang):
+    # ic(lang)
+    # lang = 1 # For polish
+    # print()
     # ic.disable()
-    with open('right_t1.csv', encoding='utf-8') as stream:
+    
+    script_path = os.path.dirname(os.path.realpath(__file__))
+    path_to_csv = os.path.join(script_path, csv_filename)
+    with open(path_to_csv, encoding='utf-8') as stream:
+    
     # with open('right.csv', encoding='utf-8') as stream:
     # with open('right_bezBOM.csv', encoding='utf-8') as stream:
         content = stream.read()
@@ -258,16 +270,15 @@ def main():
     
     start_range = start_range_ref_to_BOM(content)
     content = decommenting(start_range, content)
-    start_range = do_quote_is_at_the_beginning(content)
-    end_consistency_check(content)
+    start_range = do_quote_is_at_the_beginning(content, lang)
+    end_consistency_check(content, lang)
     # cache_str_out, values_list, dic_out, column_index, c_key = main_work(start_range, content)
     dic_out = main_work(start_range, content, lang)
     
-    print(dic_out)
+    # print(dic_out)
     ic(dic_out)
-
-    # Niedołączone dane mogą się znajdować w:
-    #
+    return dic_out
+    
     # Przypadek
     # 1. There is new line sign. 
     # ✅2. A new line was launched with a quotation mark 
@@ -275,8 +286,8 @@ def main():
     # 4. The first columnt was completed.
     # 5. Second column was launched.
     # 6. Second column was completed
-    #
-    #
-    
+
+
 if __name__ == "__main__":
-    main()
+    # lang = 1 # For polish
+    main('right_t1.csv', 1)

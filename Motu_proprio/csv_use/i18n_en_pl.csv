@@ -1,0 +1,7 @@
+"presentation","Programm counting number of words in text file","Program liczący ilość słów w pliku tekstowym"
+"prompt","Enter path to the file where the number of words will be counted","Podaj ścieżkę do w pliku,w którym zostanie zliczona ilość słów"
+"in_file_is","In file is","W pliku jest"
+"words","words","słów"
+"number_of_words","Number of words in the file","Liczba słów w podanym pliku"
+"read_err","Incorrect path or/and file","Nieprawidłowa ścieżka lub/i plik"
+"p_exit","Program interruption","Przerwanie programu"
